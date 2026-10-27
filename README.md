@@ -20,6 +20,7 @@
 1. **请安装Python 3.11**
 2.  使用`pip install -r requirements.txt`安装依赖
 3. 请安装`Android Debug Bridge`，**要求版本号至少为`1.0.41`**，并确保相应的环境变量已经配置好。
+4. 下载release中的安装包并解压
 
 ## 成果
 
