@@ -6,24 +6,48 @@
 > - 谱面：从自己的安装包里提取了 **686 份官方谱面**（217 首歌，43.5 万个音符），解析器已适配真实格式；
 > - 注入：**免 root 的 scrcpy 通道**，真机 Xiaomi 24031PN0DC / Android 16 验证；
 > - 校准：每首歌第一次用方向键微调，结果自动记进 `calibration.json`。
+>
+
+ 
+ ## 免责声明
++ 本项目属于个人兴趣项目，与厦门鸽游网络有限公司无关。
++ **本项目内不含任何版权素材，且本项目并非商业项目**。
++ 项目的服务端借用自[Genymobile/scrcpy](https://github.com/Genymobile/scrcpy)，在此感谢scrcpy的作者和维护者们。
++ 截止目前，项目作者从未在任何除GitHub以外的平台上以任何方式宣传过本项目。
+
+
+0. 准备
+1. **请安装Python 3.11**
+2.  使用`pip install -r requirements.txt`安装依赖
+3. 请安装`Android Debug Bridge`，**要求版本号至少为`1.0.41`**，并确保相应的环境变量已经配置好。
 
 ## 成果
 
 | 日期 | 曲目 | 结果 | 校准 |
 |---|---|---|---|
-| 2026-10-27 | Glaciaxion [EZ] | **全 Perfect**（66 notes，0 Good / 0 Bad / 0 Miss） | `-0.56s` |
+| 2026-10-27 | Glaciaxion [hd] | **全 Perfect**（66 notes，0 Good / 0 Bad / 0 Miss） | `-0.56s` |
 | 2026-10-28 | Distorted Fate [IN] | **全 Perfect**（1449 触控，峰值 4 指） | `-2.56s` |
 
-![真实谱面预览](out/real/preview.png)
+## 快速使用（`releases/`）
 
-上图是 `Stasis [EZ]` 的真实谱面渲染：判定线按事件移动/旋转，音符按 `floorPosition` 做透视投影。
+不想敲命令的话，`releases/` 里有两个入口：
 
----
+| 文件 | 作用 |
+|---|---|
+| `1-导入谱面.bat` | 检查环境 → 连手机 → 拉取 APK → 解出 assets → 解码谱面到 `charts\` |
+| `2-自动打歌.bat` | adb 截屏 → OCR 识别当前曲目和难度 → 启动自动打歌 |
 
-## 快速开始
+两者都支持 `-DryRun`（只检查环境/只识别，不真正执行）：
 
 ```powershell
-cd "D:\dsh\phigros auto"
+releases\1-导入谱面.bat -DryRun
+releases\2-自动打歌.bat -DryRun
+---
+
+## 原理分析
+
+```powershell
+cd ".....\phigros auto"##文件目录
 
 # ① 提谱面（从你自己解包出来的 assets 里读，一次就好）
 python run.py tracks list    apk\assets\base\assets\aa
@@ -173,20 +197,7 @@ python run.py scrcpy-test          # 倒计时 3 秒后点 5 个位置
 | `--start-tap` | 「开始」按钮坐标 | 2400x1080 横屏实测 `2280,940` |
 | `--audio-sync` | 用 scrcpy 收音对齐 | 会让手机卡顿，不推荐 |
 
-## 双击即用（`releases/`）
 
-不想敲命令的话，`releases/` 里有两个入口：
-
-| 文件 | 作用 |
-|---|---|
-| `1-导入谱面.bat` | 检查环境 → 连手机 → 拉取 APK → 解出 assets → 解码谱面到 `charts\` |
-| `2-自动打歌.bat` | adb 截屏 → OCR 识别当前曲目和难度 → 启动自动打歌 |
-
-两者都支持 `-DryRun`（只检查环境/只识别，不真正执行）：
-
-```powershell
-releases\1-导入谱面.bat -DryRun
-releases\2-自动打歌.bat -DryRun
 ```
 
 识别原理：
@@ -203,8 +214,6 @@ releases\2-自动打歌.bat -DryRun
 * 本仓库不含游戏资源，`charts/`、`apk/` 都是你自己从安装包里提取的，请勿分发。
 
 ## 目录
-
-```
 phigros_auto/    核心包（chart / schedule / sync / render / play / scrcpy / tracks / cli）
 tools/           演示谱面、调度抖动测试、直接解包（scan/pull/unpack）、依赖引导
 tests/           38 个单元测试
