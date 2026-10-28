@@ -1,0 +1,13 @@
+{
+  "adb": "",
+  "serial": "",
+  "charts_dir": "D:\\dsh\\phigros auto\\charts",
+  "countdown": 5,
+  "delay_ms": 101,
+  "start_tap": "",
+  "difficulty": "IN",
+  "use_root": true,
+  "delay_by_device": {
+    "emulator-5554": 101
+  }
+}
